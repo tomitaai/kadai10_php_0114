@@ -4,28 +4,40 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BookController; //Add
 use App\Models\Book; //Add
+use App\Models\User; //Add
 
-//本：ダッシュボード表示(books.blade.php)
-Route::get('/', [BookController::class,'index'])->middleware(['auth'])->name('book_index');
-Route::get('/dashboard', [BookController::class,'index'])->middleware(['auth'])->name('dashboard');
 
-//本：追加 
-Route::post('/books',[BookController::class,"store"])->name('book_store');
+// ログインなしでもOK
+Route::get('/', [BookController::class,'top'])->name('top');
 
-//本：削除 
-Route::delete('/book/{book}', [BookController::class,"destroy"])->name('book_destroy');
 
-//本：更新画面
-Route::post('/booksedit/{book}',[BookController::class,"edit"])->name('book_edit'); //通常
-Route::get('/booksedit/{book}', [BookController::class,"edit"])->name('edit');      //Validationエラーありの場合
 
-//本：更新画面
-Route::post('/books/update',[BookController::class,"update"])->name('book_update');
 
-//本：詳細画面
-Route::post('/booksshow/{book}',[BookController::class,"show"])->name('book_show'); //通常
-Route::get('/booksshow/{book}', [BookController::class,"show"])->name('show');      //Validationエラーありの場合
+   //LOGIN認証後にしか見せない
+Route::group(['middleware' => 'auth'], function () {
 
+
+    Route::get('/index', [BookController::class,'index'])->middleware(['auth'])->name('book_index');
+    Route::get('/dashboard', [BookController::class,'index'])->middleware(['auth'])->name('dashboard');
+    
+    //本：追加 
+    Route::post('/books',[BookController::class,"store"])->name('book_store');
+    
+    //本：削除 
+    Route::delete('/book/{book}', [BookController::class,"destroy"])->name('book_destroy');
+    
+    //本：更新画面
+    Route::post('/booksedit/{book}',[BookController::class,"edit"])->name('book_edit'); //通常
+    Route::get('/booksedit/{book}', [BookController::class,"edit"])->name('edit');      //Validationエラーありの場合
+    
+    //本：更新画面
+    Route::post('/books/update',[BookController::class,"update"])->name('book_update');
+    
+    //本：詳細画面
+    Route::post('/booksshow/{book}',[BookController::class,"show"])->name('book_show'); //通常
+    Route::get('/booksshow/{book}', [BookController::class,"show"])->name('show');      //Validationエラーありの場合
+
+});
 
 
 /**
@@ -42,3 +54,16 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+
+
+
+// 以下別サイトのさんこう
+// Route::prefix('/user')->group(function () {
+//     Route::get('/profile', 'User\UserController@showProfile');
+//     // 管理者ユーザーのみ
+//     Route::group(['middleware' => ['auth', 'can:admin']], function () {
+//         Route::get('/admin', 'User\UserController@showAdminPage');
+//     });
+// });

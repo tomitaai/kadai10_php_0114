@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
@@ -14,6 +15,15 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
+    public function top()
+    {
+        $books = Book::orderBy('created_at', 'asc')->paginate(5);
+        return view('top', [
+            'books' => $books
+        ]);
+    }
+
     public function index()
     {
         $books = Book::where('user_id',Auth::user()->id)->orderBy('created_at', 'asc')->paginate(5);
@@ -39,7 +49,6 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
         //バリデーション
         $validator = Validator::make($request->all(), [
          'item_name' => 'required|min:3|max:255',
@@ -50,7 +59,7 @@ class BookController extends Controller
 
         //バリデーション:エラー 
         if ($validator->fails()) {
-        return redirect('/')
+        return redirect('/dashboard')
             ->withInput()
             ->withErrors($validator);
         }
@@ -65,7 +74,7 @@ class BookController extends Controller
         $books->finished = $request->finished;
         $books->save(); 
         
-        return redirect('/') ->with('status', '登録しました。');  //追加
+        return redirect('/dashboard') ->with('status', '登録しました。');  //追加
     }
 
     /**
@@ -130,7 +139,7 @@ class BookController extends Controller
         $books->item_kind = $request->item_kind;
         $books->finished = $request->finished;
         $books->save();
-        return redirect('/') ->with('status', '更新しました。');  //追加
+        return redirect('/dashboard') ->with('status', '更新しました。');  //追加
     }
 
     /**
@@ -143,12 +152,12 @@ class BookController extends Controller
     {
         //
         $book->delete();       //追加
-        return redirect('/') ->with('status', '削除しました。');  //追加
+        return redirect('/dashboard') ->with('status', '削除しました。');  //追加
     }
     
-    public function __construct()
-    {
-        //
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     //
+    //     $this->middleware('auth');
+    // }
 }

@@ -105,7 +105,7 @@
         </div>
 
          <!-- 現在の本 -->
-        <table class="table table-fixed px-4 py-4 m-2">
+        <table class="table table-fixed px-4 py-4 m-2 flex-1">
 
         <tr>
             <th scope="col">読了日</th>
