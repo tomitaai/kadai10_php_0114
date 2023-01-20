@@ -24,7 +24,7 @@
             
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-500 font-bold">
-                    おすすめ本の登録
+                    {{ Auth::user()->name }} さんのおすすめ本 登録！
                 </div>
             </div>
 
@@ -63,16 +63,6 @@
                         <option value="その他">その他</option>
                       </select>
 
-<!--<select name="places[]" size="5" multiple>    -->
-<!--  <option value="1">Manhattan</option>-->
-<!--  <option value="2">Brooklyn</option>-->
-<!--  <option value="3">Queens</option>-->
-<!--  <option value="4">Bronx</option>-->
-<!--  <option value="5">Staten Island</option>-->
-<!--</select> -->
-                    <!--</form>-->
-
-
 
 
                       <!--<input name="item_kind" class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="">-->
@@ -82,10 +72,18 @@
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         読了日
                       </label>
-                      <input name="finished" type="date" class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="">
+                      <input name="finished" type="date" class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="">
+                    </div>
+                                      <!-- カラム5 -->
+                    <div class="w-full md:w-1/1 px-3 mb-6 md:mb-0">
+                      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                        画像
+                      </label>
+                      <input name="image" type="file" class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="">
                     </div>
                   </div>
-                  <!-- カラム５ -->
+
+                  <!-- カラム -->
                   <div class="flex flex-col">
                       <div class="text-gray-700 text-center px-4 py-2 m-2">
                              <x-button class="bg-blue-500 rounded-lg">送信</x-button>
@@ -100,7 +98,7 @@
     <div class="flex-1 text-left px-4 py-4 m-2">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-500 font-bold text-red">
-                おすすめ本の一覧
+                {{ Auth::user()->name }} さんの登録済のおすすめ本一覧
             </div>
         </div>
 
@@ -108,9 +106,9 @@
         <table class="table table-fixed px-4 py-4 m-2 flex-1">
 
         <tr>
-            <th scope="col">読了日</th>
-            <th scope="col">書籍名</th>
-            <th scope="col">分類</th>
+            <th scope="col">読了日　　　　　　　　　　</th>
+            <th scope="col">書籍名　　　　　　　</th>
+            <th scope="col">分類　　</th>
             <th scope="col"></th>
         </tr>
         @if (count($books) > 0)

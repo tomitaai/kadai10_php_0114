@@ -72,6 +72,12 @@ class BookController extends Controller
         $books->item_url = $request->item_url;
         $books->item_kind = $request->item_kind;
         $books->finished = $request->finished;
+        
+        if(request('image')){
+            $name=request()->file('image')->getClientOriginalName();
+            request()->file('image')->move('storage/images',$name);
+            $book->image=$name;
+        }
         $books->save(); 
         
         return redirect('/dashboard') ->with('status', '登録しました。');  //追加
