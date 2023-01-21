@@ -33,15 +33,16 @@
         <table class="table table-fixed px-4 py-4 m-2">
 
         <tr>
-            <th scope="col w-80 w-1/4">読了日　　　　　　　　　</th>
-            <th scope="col w-80 w-1/4">書籍名　　　　　</th>
-            <th scope="col w-80 w-1/4">分類　　　　　　</th>
-            <th scope="col w-80 w-1/4">投稿者　　　</th>
-
+            <th scope="col">読了日　　</th>
+            <th scope="col">画像　　　</th>
+            <th scope="col">タイトル　　　　　　</th>
+            <th scope="col">分類　　</th>
+            <th scope="col">投稿者　　　</th>
+            <th scope="col"></th>
         </tr>
         @if (count($books) > 0)
             @foreach ($books as $book)
-                <x-collection2 url="{{ $book->item_url }}" id="{{ $book->id }}" date="{{ $book->finished }}" kind="{{ $book->item_kind }}" username="{{ $book->user_id }}">{{ $book->item_name }}</x-collection2>
+                <x-collection2 image="{{ $book->image }}" url="{{ $book->item_url }}" id="{{ $book->id }}" date="{{ $book->finished->format(config('const.format.date')) }}" kind="{{ $book->item_kind }}" username="{{ $book->user->name }}">{{ $book->item_name }}</x-collection2>
             @endforeach
         @endif
             </table>

@@ -24,13 +24,13 @@
             
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-500 font-bold">
-                    {{ Auth::user()->name }} さんのおすすめ本 登録！
+                    {{ Auth::user()->name }} さんのおすすめ本を登録する
                 </div>
             </div>
 
 
             <!-- 本のタイトル -->
-            <form action="{{ url('books') }}" method="POST" class="w-full max-w-lg">
+            <form action="{{ url('books') }}" method="POST" class="w-full max-w-lg" enctype="multipart/form-data">>
                 @csrf
                   <div class="flex flex-col px-2 py-2">
                    <!-- カラム１ -->
@@ -106,14 +106,15 @@
         <table class="table table-fixed px-4 py-4 m-2 flex-1">
 
         <tr>
-            <th scope="col">読了日　　　　　　　　　　</th>
-            <th scope="col">書籍名　　　　　　　</th>
+            <th scope="col">読了日　　</th>
+            <th scope="col">画像　　　</th>
+            <th scope="col">タイトル　　　　　　</th>
             <th scope="col">分類　　</th>
             <th scope="col"></th>
         </tr>
         @if (count($books) > 0)
             @foreach ($books as $book)
-                <x-collection url="{{ $book->item_url }}" id="{{ $book->id }}" date="{{ $book->finished }}" kind="{{ $book->item_kind }}">{{ $book->item_name }}</x-collection>
+                <x-collection image="{{ $book->image }}" url="{{ $book->item_url }}" id="{{ $book->id }}" date="{{ $book->finished->format(config('const.format.date')) }}" kind="{{ $book->item_kind }}">{{ $book->item_name }}</x-collection>
             @endforeach
         @endif
             </table>

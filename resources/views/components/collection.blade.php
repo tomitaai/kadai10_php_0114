@@ -1,5 +1,6 @@
         <tr class="px-4 py-4">
             <td class="x-4 py-4 m-2">{{ $date }}</td>
+            <td class="x-4 py-4 m-2"><img src = "{{asset('storage/images/' . $image )}}" style="height:35px;"></td>
             <td class="x-4 py-4 m-2">{{ $slot }}</td>
             <td class="x-4 py-4 m-2">{{ $kind }}</td>
             <td>

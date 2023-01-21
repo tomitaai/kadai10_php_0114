@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\ProfileController;//9.43.x~
+use App\Http\Controllers\UploadController;//9.43.x~
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BookController; //Add
@@ -22,6 +23,8 @@ Route::group(['middleware' => 'auth'], function () {
     
     //本：追加 
     Route::post('/books',[BookController::class,"store"])->name('book_store');
+    Route::resource('upload',UploadController::class);
+    
     
     //本：削除 
     Route::delete('/book/{book}', [BookController::class,"destroy"])->name('book_destroy');

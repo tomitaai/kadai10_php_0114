@@ -18,7 +18,7 @@ class BookController extends Controller
     
     public function top()
     {
-        $books = Book::orderBy('created_at', 'asc')->paginate(5);
+        $books = Book::orderBy('finished', 'asc')->paginate(5);
         return view('top', [
             'books' => $books
         ]);
@@ -26,7 +26,7 @@ class BookController extends Controller
 
     public function index()
     {
-        $books = Book::where('user_id',Auth::user()->id)->orderBy('created_at', 'asc')->paginate(5);
+        $books = Book::where('user_id',Auth::user()->id)->orderBy('finished', 'asc')->paginate(5);
         return view('books', [
             'books' => $books
         ]);
@@ -51,10 +51,10 @@ class BookController extends Controller
     {
         //バリデーション
         $validator = Validator::make($request->all(), [
-         'item_name' => 'required|min:3|max:255',
+         'item_name' => 'required|min:1|max:255',
          'item_url' => 'required',
          'item_kind' => 'required',
-         'finished'   => 'required'
+         'finished'   => 'required',
         ]);
 
         //バリデーション:エラー 
@@ -74,9 +74,10 @@ class BookController extends Controller
         $books->finished = $request->finished;
         
         if(request('image')){
-            $name=request()->file('image')->getClientOriginalName();
-            request()->file('image')->move('storage/images',$name);
-            $book->image=$name;
+            $original = $request->file('image')->getClientOriginalName();
+            $name = date('Ymd_His') . '_' . $original;
+            $request->file('image')->move('storage/images',$name);
+            $books->image = $name;
         }
         $books->save(); 
         
